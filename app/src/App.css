@@ -1,0 +1,8 @@
+.total-cointainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.child {
+  border: 1px solid black;
+  height: 100vh;
+}
