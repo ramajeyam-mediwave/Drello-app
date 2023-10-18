@@ -8,25 +8,24 @@ function Card({ addTodo, edited, tasks }) {
   };
   function handleBlockquoteChange(newValue) {
     setText(newValue);
-    console.log(newValue);
   }
 
   return (
     <>
       <button onClick={addCard}>+</button>
-      <div className="card">
-        {tasks.map((todo, index) => (
-          <div key={todo.id}>
+      <div className="">
+        {tasks.map((todo, id) => (
+          <div key={id}>
             <textarea
-              key={todo.id}
-              // value={text}
+              key={id}
               onChange={(e) => handleBlockquoteChange(e.target.value)}
               onBlur={(e) => edited(e.target.value, todo.id)}
-              placeholder="text here"
+              placeholder="enter"
             />
           </div>
         ))}
       </div>
+      <div></div>
     </>
   );
 }

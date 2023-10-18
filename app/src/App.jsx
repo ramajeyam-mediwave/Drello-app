@@ -20,17 +20,11 @@ function App() {
         ];
       }
       case "TODO_EDITED": {
-        // const filtered = tasks.filter((t) => t.id != action.value);
-        // return [...filtered];
-        const editedTask = tasks.map((t) => {
-          if (t.id === action.value.id) {
-            return {
-              ...t,
-              text: action.value.value,
-              dateTime: new Date(),
-            };
-          }
-        });
+        const editedTask = [...tasks];
+        const idx = editedTask.findIndex((nt) => nt.id === action.value.id);
+        if (idx !== -1) {
+          editedTask[idx]["text"] = action.value.value;
+        }
         return editedTask;
       }
       default: {
