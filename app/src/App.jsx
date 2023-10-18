@@ -1,10 +1,18 @@
-import { useReducer } from "react";
+import { useReducer, useEffect } from "react";
 import Card from "./components/Card";
 import { v4 as uuidv4 } from "uuid";
 import "./App.css";
 
+function getFromLocalStorage() {
+  return JSON.parse(localStorage.getItem("My-card")) || [];
+}
+
 function App() {
-  const [tasks, dispatch] = useReducer(todoReducer, []);
+  const [tasks, dispatch] = useReducer(todoReducer, getFromLocalStorage());
+
+  useEffect(() => {
+    localStorage.setItem("My-card", JSON.stringify(tasks));
+  }, [tasks]);
 
   function todoReducer(tasks, action) {
     switch (action.type) {
@@ -32,6 +40,10 @@ function App() {
       }
     }
   }
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   function handleAdd(value) {
     dispatch({

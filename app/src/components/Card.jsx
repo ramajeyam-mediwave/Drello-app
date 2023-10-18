@@ -15,7 +15,7 @@ function Card({ addTodo, edited, tasks }) {
       <button onClick={addCard}>+</button>
       <div className="">
         {tasks.map((todo, id) => (
-          <div key={id}>
+          <div key={id} draggable>
             <textarea
               key={id}
               onChange={(e) => handleBlockquoteChange(e.target.value)}
