@@ -1,43 +1,37 @@
 import { useReducer } from "react";
-import "./App.css";
-import TodoList from "./components/TodoList";
-import TodoAddForm from "./components/TodoAddForm";
 import Card from "./components/Card";
+import { v4 as uuidv4 } from "uuid";
+import "./App.css";
 
 function App() {
-  const [todos, dispatch] = useReducer(todoReducer, []);
+  const [tasks, dispatch] = useReducer(todoReducer, []);
 
-  function todoReducer(todos, action) {
+  function todoReducer(tasks, action) {
     switch (action.type) {
       case "TODO_ADD": {
         return [
-          ...todos,
+          ...tasks,
           {
-            id: new Date().getTime(),
-            text: action.value,
-            isDone: false,
+            id: uuidv4(),
+            text: "",
+            dateTime: new Date(),
+            inState: "todo",
           },
         ];
       }
-      case "TODO_DELETE": {
-        const filtered = todos.filter((t) => t.id != action.value);
-        return [...filtered];
-      }
-      case "TODO_DONE": {
-        const newTodos = [...todos];
-        const idx = newTodos.findIndex((nt) => nt.id === action.value);
-        if (idx !== -1) {
-          newTodos[idx]["isDone"] = true;
-        }
-        return newTodos;
-      }
-      case "TODO_UNDONE": {
-        const newTodos = [...todos];
-        const idx = newTodos.findIndex((nt) => nt.id === action.value);
-        if (idx !== -1) {
-          newTodos[idx]["isDone"] = false;
-        }
-        return newTodos;
+      case "TODO_EDITED": {
+        // const filtered = tasks.filter((t) => t.id != action.value);
+        // return [...filtered];
+        const editedTask = tasks.map((t) => {
+          if (t.id === action.value.id) {
+            return {
+              ...t,
+              text: action.value.value,
+              dateTime: new Date(),
+            };
+          }
+        });
+        return editedTask;
       }
       default: {
         throw Error("Unknown action: " + action.type);
@@ -51,55 +45,31 @@ function App() {
       value: value,
     });
   }
-  function handleDelete(id) {
+  function handleEdited(value, id) {
     dispatch({
-      type: "TODO_DELETE",
-      value: id,
+      type: "TODO_EDITED",
+      value: { value, id },
     });
-  }
-  function handleDone(id, type) {
-    if (type == "done") {
-      dispatch({
-        type: "TODO_DONE",
-        value: id,
-      });
-    } else {
-      dispatch({
-        type: "TODO_UNDONE",
-        value: id,
-      });
-    }
   }
 
   return (
-    <div className="total-cointainer">
-      <div className="child">
-        <h1>Drello-app</h1>
-        <TodoAddForm handleAdd={handleAdd} />
-        <TodoList
-          todos={todos}
-          handleDelete={handleDelete}
-          handleDone={handleDone}
+    <div className="total-div">
+      <div className="container">
+        <h2>My todo</h2>
+        <Card
+          addTodo={(text) => handleAdd(text)}
+          tasks={tasks}
+          edited={handleEdited}
         />
-        <Card />
       </div>
-      <div className="child">PROGRESS</div>
-      <div className="child">DONE</div>
+      <div className="progess">
+        <h2>progress</h2>
+      </div>
+      <div className="done">
+        <h2>Done</h2>
+      </div>
     </div>
   );
 }
 
 export default App;
-
-// return (
-//   <div>
-//     <h1>Drello</h1>
-//     <div className="parent">
-//       <div className="child">TODO
-
-//       </div>
-//       <div className="child">IN-PROGESS</div>
-//       <div className="child">DONE</div>
-//     </div>
-//   </div>
-// );
