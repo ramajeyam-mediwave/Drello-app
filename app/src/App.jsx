@@ -1,5 +1,7 @@
 import { useReducer, useEffect } from "react";
 import Card from "./components/Card";
+import Progess from "./components/Progess";
+import Done from "./components/Done";
 import { v4 as uuidv4 } from "uuid";
 import "./App.css";
 
@@ -35,15 +37,20 @@ function App() {
         }
         return editedTask;
       }
+
+      case "TODO_DELETE": {
+        return tasks.filter((task) => task.id !== action.id);
+      }
+
       default: {
         throw Error("Unknown action: " + action.type);
       }
     }
   }
 
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+  // useEffect(() => {
+  //   localStorage.setItem("tasks", JSON.stringify(tasks));
+  // }, [tasks]);
 
   function handleAdd(value) {
     dispatch({
@@ -58,6 +65,13 @@ function App() {
     });
   }
 
+  function handleDelete(id) {
+    dispatch({
+      type: "TODO_DELETE",
+      id: id,
+    });
+  }
+
   return (
     <div className="total-div">
       <div className="container">
@@ -66,13 +80,20 @@ function App() {
           addTodo={(text) => handleAdd(text)}
           tasks={tasks}
           edited={handleEdited}
+          deleteCard={handleDelete}
         />
       </div>
       <div className="progess">
-        <h2>progress</h2>
+        <h2>Progress</h2>
+        <Progess
+          tasks={tasks}
+          edited={handleEdited}
+          deleteCard={handleDelete}
+        />
       </div>
       <div className="done">
         <h2>Done</h2>
+        <Done tasks={tasks} edited={handleEdited} deleteCard={handleDelete} />
       </div>
     </div>
   );

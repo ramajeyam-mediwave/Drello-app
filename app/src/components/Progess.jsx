@@ -1,23 +1,17 @@
 import React, { useState } from "react";
 import { formatDate } from "../utils";
-function Card({ addTodo, edited, tasks, deleteCard }) {
+function Inprogess({ edited, tasks, deleteCard }) {
   const [text, setText] = useState("");
 
-  const addCard = () => {
-    addTodo(text);
-  };
   function handleBlockquoteChange(newValue) {
     setText(newValue);
   }
 
   return (
     <>
-      <button onClick={addCard} className="add">
-        ➕
-      </button>
       <div>
         {tasks
-          .filter((t) => t.inState === "todo")
+          .filter((t) => t.inState === "progress")
           .map((todo, id) => (
             <div key={todo.id} draggable className="total-card">
               <div className="button-div">
@@ -41,4 +35,4 @@ function Card({ addTodo, edited, tasks, deleteCard }) {
   );
 }
 
-export default Card;
+export default Inprogess;

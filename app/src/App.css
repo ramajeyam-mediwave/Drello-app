@@ -1,6 +1,7 @@
 body {
   background-color: rgb(45, 151, 232);
   color: white;
+  font-family: Arial, Helvetica, sans-serif;
 }
 blockquote {
   margin: 0;
@@ -20,8 +21,44 @@ blockquote {
 .done {
   border: 1px solid white;
   height: 100vh;
+  text-align: center;
 }
-.fixed-width-textarea {
-  width: 500px;
-  height: 150px;
+
+.time {
+  color: black;
+}
+.total-card {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  margin: 10px;
+}
+.textarea {
+  width: 98%;
+  height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  resize: none;
+  margin: 8px 0;
+  border: none;
+  outline: none;
+}
+.button-div {
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin-top: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: end;
+}
+.button {
+}
+.add {
+  color: white;
+  background-color: #08cf65;
+  margin-left: 12px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: baseline;
 }

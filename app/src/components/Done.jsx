@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { formatDate } from "../utils";
-function Card({ addTodo, edited, tasks, deleteCard }) {
+function Done({ edited, tasks, deleteCard }) {
   const [text, setText] = useState("");
 
   const addCard = () => {
@@ -12,12 +12,9 @@ function Card({ addTodo, edited, tasks, deleteCard }) {
 
   return (
     <>
-      <button onClick={addCard} className="add">
-        ➕
-      </button>
       <div>
         {tasks
-          .filter((t) => t.inState === "todo")
+          .filter((t) => t.inState === "Done")
           .map((todo, id) => (
             <div key={todo.id} draggable className="total-card">
               <div className="button-div">
@@ -41,4 +38,4 @@ function Card({ addTodo, edited, tasks, deleteCard }) {
   );
 }
 
-export default Card;
+export default Done;
