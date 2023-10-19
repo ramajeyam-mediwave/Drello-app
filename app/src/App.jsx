@@ -41,6 +41,15 @@ function App() {
       case "TODO_DELETE": {
         return tasks.filter((task) => task.id !== action.id);
       }
+      case "TASK_DROP": {
+        let newTasks = tasks.filter((task) => {
+          if (task.id == action.value.id) {
+            task.inState = action.value.state;
+          }
+          return task;
+        });
+        return newTasks;
+      }
 
       default: {
         throw Error("Unknown action: " + action.type);
@@ -72,9 +81,24 @@ function App() {
     });
   }
 
+  function onDrop(ev, state) {
+    let id = ev.dataTransfer.getData("id");
+    dispatch({
+      type: "TASK_DROP",
+      value: { id, state },
+    });
+  }
+  const onDragOver = (ev) => {
+    ev.preventDefault();
+  };
+
   return (
     <div className="total-div">
-      <div className="container">
+      <div
+        className="container"
+        onDragOver={(e) => onDragOver(e)}
+        onDrop={(e) => onDrop(e, "todo")}
+      >
         <h2>My todo</h2>
         <Card
           addTodo={(text) => handleAdd(text)}
@@ -83,15 +107,26 @@ function App() {
           deleteCard={handleDelete}
         />
       </div>
-      <div className="progess">
+      <div
+        className="progess"
+        onDragOver={(e) => onDragOver(e)}
+        onDrop={(e) => onDrop(e, "progress")}
+      >
         <h2>Progress</h2>
         <Progess
           tasks={tasks}
           edited={handleEdited}
           deleteCard={handleDelete}
+          onDragStart={(e, id) => handleDragStart(e, id)}
+          onDragOver={(e) => handleDragOver(e)}
+          onDrop={(e) => handleDrop(e, "todo")}
         />
       </div>
-      <div className="done">
+      <div
+        className="done"
+        onDragOver={(e) => onDragOver(e)}
+        onDrop={(e) => onDrop(e, "Done")}
+      >
         <h2>Done</h2>
         <Done tasks={tasks} edited={handleEdited} deleteCard={handleDelete} />
       </div>

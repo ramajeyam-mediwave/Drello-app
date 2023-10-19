@@ -7,13 +7,25 @@ function Inprogess({ edited, tasks, deleteCard }) {
     setText(newValue);
   }
 
+  const onDragStart = (ev, id) => {
+    console.log("dragstart:", id);
+    ev.dataTransfer.setData("id", id);
+  };
+
   return (
     <>
       <div>
         {tasks
           .filter((t) => t.inState === "progress")
           .map((todo, id) => (
-            <div key={todo.id} draggable className="total-card">
+            <div
+              key={todo.id}
+              draggable
+              className="total-card"
+              onDragStart={(e) => {
+                onDragStart(e, todo.id);
+              }}
+            >
               <div className="button-div">
                 <button onClick={() => deleteCard(todo.id)} className="button">
                   ❌
